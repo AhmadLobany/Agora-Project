@@ -1,8 +1,14 @@
-import { observable, action } from 'mobx'
+import { observable, action ,computed} from 'mobx'
 import {Item} from "./Item"
 export class Inventory {
 
     @observable items = []
+
+    @computed get numItems() { 
+        let counter = 0
+        this.items.forEach(i =>  counter += parseInt(i.quantity ,10))
+        return counter
+    }
 
     @action addItem = (name,price=0,quantity=1) => {
         for(let item of this.items) {

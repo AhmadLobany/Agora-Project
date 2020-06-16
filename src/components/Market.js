@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { observer } from 'mobx-react'
+import { observer, inject } from 'mobx-react'
 import Item from './Item';
 
-
+@inject("inventory")
 @observer
 class Market extends Component {
     handleChange = (e) => {
@@ -13,7 +13,7 @@ class Market extends Component {
 
     addItem = () => {
       if(this.state.name!=="") {
-        this.props.store.addItem(this.state.name)
+        this.props.inventory.addItem(this.state.name)
         document.getElementById("in").value = ""
         this.setState({
           name: ""
@@ -26,9 +26,10 @@ class Market extends Component {
             <div>
             <input id="in" type="text" placeholder="Item's name" onChange={this.handleChange}></input>
             <button onClick = {this.addItem}>Add</button>
-            {this.props.store.items.map((i,ind) => <Item item = {i} 
+            {this.props.inventory.items.map((i,ind) => <Item item = {i} 
                                                     key = {ind}
-                                                    store = {this.props.store}/>)}
+                                                     />)}
+            <div>The total number of items in the Agora : {this.props.inventory.numItems}</div>
             </div>
         )
     }
